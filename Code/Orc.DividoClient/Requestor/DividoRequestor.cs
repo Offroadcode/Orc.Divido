@@ -81,12 +81,11 @@ namespace Orc.Divido.Requestor
             }
         }
 
-        private new Dictionary<string, string> AddMerchant( Dictionary<string, string> parameters)
+        private Dictionary<string, string> AddMerchant( Dictionary<string, string> parameters)
         {
             parameters = new Dictionary<string, string>(parameters);
 
-            
-                parameters.Add("merchant", ApiKey);
+            parameters.Add("merchant", ApiKey);
             
             return parameters;
         }
