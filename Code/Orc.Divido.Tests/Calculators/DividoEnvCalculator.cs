@@ -10,11 +10,12 @@ using Orc.Divido.Models.enums;
 namespace Orc.Divido.Tests.Calculators
 {
     [TestClass]
-    class DividoEnvCalculatorTests
+    public class DividoEnvCalculatorTests
     {
         [TestMethod]
         public void Test_SandboxEnvironment()
         {
+            
             var result =  DividoEnvCalculator.Calculate("sandbox_aasdasdasdasd.sdafsdaljkhfgsk;jahf");
             Assert.AreEqual(DividoEnvironment.Sandbox, result);
         }

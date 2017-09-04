@@ -50,13 +50,11 @@
   <ItemGroup>
     <Compile Include="Calculators\BaseUrlCalculatorTests.cs" />
     <Compile Include="Calculators\DividoEnvCalculator.cs" />
-    <Compile Include="Calculators\UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Orc.DividoClient\Orc.Divido.csproj">
       <Project>{6d8f1e8b-979d-4925-8732-1573eb4c9e62}</Project>

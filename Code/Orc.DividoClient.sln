@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Divido", "Orc.DividoCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Divido.Tests", "Orc.Divido.Tests\Orc.Divido.Tests.csproj", "{088DB954-89A1-4338-B624-2FFF9293BBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orc.Divido.ConsoleTest", "Orc.Divido.ConsoleTest\Orc.Divido.ConsoleTest.csproj", "{7D6E629A-F1BC-4F82-B7BC-7DFEFD23949C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orc.Divido.ConsoleTest", "Orc.Divido.ConsoleTest\Orc.Divido.ConsoleTest.csproj", "{7D6E629A-F1BC-4F82-B7BC-7DFEFD23949C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
