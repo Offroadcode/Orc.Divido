@@ -17,7 +17,7 @@
     <PackageProjectUrl>https://github.com/offroadcode/Orc.Divido</PackageProjectUrl>
   </PropertyGroup>
   
-  <ItemGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
   </ItemGroup>
