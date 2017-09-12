@@ -1,14 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+	  <TargetFrameworks>netstandard1.4;net40;net45;net46</TargetFrameworks>
     <AssemblyName>Orc.Divido</AssemblyName>
     <RootNamespace>Orc.Divido</RootNamespace>
   </PropertyGroup>
-
+ <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.4'">
+    <DefineConstants>FEATURE_TYPE_INFO</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>Orc.Divido</PackageId>
+    <PackageVersion>0.1.2</PackageVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>.Net client for the Divido payment provider</PackageTags>
+    <PackageLicenseUrl>https://github.com/offroadcode/Orc.Divido</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/offroadcode/Orc.Divido</PackageProjectUrl>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
   </ItemGroup>
-
+ <ItemGroup Condition="'$(TargetFramework)'=='net40' OR '$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)'=='net45' OR '$(TargetFramework)'=='net46'">
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
 </Project>

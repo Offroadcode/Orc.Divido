@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
+#if FEATURE_TYPE_INFO
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+#else
+
+#endif
+
 using System.Runtime.Serialization.Json;
 using System.Text;
 using Orc.Divido.Models;
@@ -15,35 +20,37 @@ namespace Orc.Divido.Requestor
         private string ApiKey { get; set; }
         private string BaseUrl { get; set; }
         private string ApiVersion { get; set; }
+#if FEATURE_TYPE_INFO
         private HttpClient HttpClient { get; set; }
+#else
+        private WebClient WebClient { get; set; }
+#endif
 
         public DividoRequestor(string apiKey, string baseUrl, string apiVersion)
         {
             ApiKey = apiKey;
             BaseUrl = baseUrl;
             ApiVersion = apiVersion;
-
-            HttpClientHandler httpClientHandler = new HttpClientHandler()
-            {
-                Proxy = new FiddlerProxy()
-            };
-
+#if FEATURE_TYPE_INFO
             
-
-            HttpClient = new HttpClient(httpClientHandler);
-            
+            HttpClient = new HttpClient();
             HttpClient.DefaultRequestHeaders.Add("User-Agent", "Orc.Divido .Net Client");
-
+#else
+            WebClient = new WebClient();
+#endif
         }
 
         public T Get<T>(string endpoint, Dictionary<string, string> parameters) where T : _BaseDividoResponse, new()
         {
             var serializer = new DataContractJsonSerializer(typeof(T));
-
             var url = CreateUrlWithQuery(endpoint, parameters);
-
-            var streamTask = HttpClient.GetStreamAsync(url).Result;
-
+#if FEATURE_TYPE_INFO
+            
+              var streamTask = HttpClient.GetStreamAsync(url).Result;
+#else
+            var streamTask = WebClient.OpenRead(url);
+#endif
+                
             var data = serializer.ReadObject(streamTask) as T;
             data.RequestUrl = url;
             ValidateResponse(data);
@@ -59,15 +66,26 @@ namespace Orc.Divido.Requestor
 
             parameters = AddMerchant(parameters);
             parameters = Calculators.PostDataCalculator.FinalizeKeys(parameters);
-            
+#if FEATURE_TYPE_INFO
             var content = new FormUrlEncodedContent(parameters);
-            
-            
             var streamTask = HttpClient.PostAsync(url, content).Result.Content.ReadAsStreamAsync().Result;
+#else
+            var nvc = new System.Collections.Specialized.NameValueCollection();
+            foreach (var kvp in parameters)
+            {
+                nvc.Add(kvp.Key.ToString(), kvp.Value.ToString());
+            }
+            var byteArray = WebClient.UploadValues(url, nvc);
+            System.IO.Stream streamTask = new System.IO.MemoryStream(byteArray);
+#endif
+
+
 
             var data = serializer.ReadObject(streamTask) as T;
             data.RequestUrl = url;
+#if FEATURE_TYPE_INFO
             data.RequestData = content.ToString();
+#endif
             ValidateResponse(data);
 
             return data;
@@ -115,25 +133,21 @@ namespace Orc.Divido.Requestor
                 var value = parameters[key];
                 if (value != null)
                 {
-                    entries.Add(string.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(value)));
+                    entries.Add(string.Format("{0}={1}", UrlEncode(key), UrlEncode(value)));
                 }
             }
           
             return "?" + string.Join("&", entries);
         }
-    }
-    public class FiddlerProxy : IWebProxy
-    {
-        public Uri GetProxy(Uri destination)
-        {
-            return new Uri("http://localhost:8888");
-        }
 
-        public bool IsBypassed(Uri host)
+        private string UrlEncode(string str)
         {
-            return false;
+#if FEATURE_TYPE_INFO
+            return WebUtility.UrlEncode(str);
+#else
+            return System.Net.WebUtility.HtmlEncode(str);
+#endif
         }
-
-        public ICredentials Credentials { get; set; }
     }
+   
 }
