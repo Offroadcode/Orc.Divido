@@ -9,7 +9,7 @@ namespace Orc.Divido.Models.DividoResponses
     public class DividoFinancesResponse :_BaseDividoResponse
     {
         [DataMember(Name = "finances")]
-        List<DividoFinance> Finances { get; set; }   
+        public List<DividoFinance> Finances { get; set; }   
     }
     [DataContract()]
     public class DividoFinance
