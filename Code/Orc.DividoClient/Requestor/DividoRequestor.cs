@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 #if FEATURE_TYPE_INFO
-    using System.Net.Http;
-    using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Net.Http.Headers;
 #else
 
 #endif
@@ -20,6 +20,7 @@ namespace Orc.Divido.Requestor
         private string ApiKey { get; set; }
         private string BaseUrl { get; set; }
         private string ApiVersion { get; set; }
+
 #if FEATURE_TYPE_INFO
         private HttpClient HttpClient { get; set; }
 #else
@@ -32,7 +33,7 @@ namespace Orc.Divido.Requestor
             BaseUrl = baseUrl;
             ApiVersion = apiVersion;
 #if FEATURE_TYPE_INFO
-            
+
             HttpClient = new HttpClient();
             HttpClient.DefaultRequestHeaders.Add("User-Agent", "Orc.Divido .Net Client");
 #else
@@ -45,12 +46,12 @@ namespace Orc.Divido.Requestor
             var serializer = new DataContractJsonSerializer(typeof(T));
             var url = CreateUrlWithQuery(endpoint, parameters);
 #if FEATURE_TYPE_INFO
-            
-              var streamTask = HttpClient.GetStreamAsync(url).Result;
+
+            var streamTask = HttpClient.GetStreamAsync(url).Result;
 #else
             var streamTask = WebClient.OpenRead(url);
 #endif
-                
+
             var data = serializer.ReadObject(streamTask) as T;
             data.RequestUrl = url;
             ValidateResponse(data);
@@ -99,25 +100,28 @@ namespace Orc.Divido.Requestor
             }
         }
 
-        private Dictionary<string, string> AddMerchant( Dictionary<string, string> parameters)
+        private Dictionary<string, string> AddMerchant(Dictionary<string, string> parameters)
         {
             parameters = new Dictionary<string, string>(parameters);
 
             parameters.Add("merchant", ApiKey);
-            
+
             return parameters;
         }
-        private string CreateUrlWithQuery(string endpoint, Dictionary<string, string> parameters, bool injectMerchant=true)
+
+        private string CreateUrlWithQuery(string endpoint, Dictionary<string, string> parameters, bool injectMerchant = true)
         {
             parameters = new Dictionary<string, string>(parameters);
-            
+
             if (injectMerchant)
             {
                 parameters = AddMerchant(parameters);
             }
+
             var queryString = ToQueryString(parameters);
-            return CreateUrl(endpoint)+queryString;
+            return CreateUrl(endpoint) + queryString;
         }
+
         private string CreateUrl(string endpoint)
         {
             var path = string.Format("{0}/{1}/{2}", BaseUrl, ApiVersion, endpoint);
@@ -128,7 +132,7 @@ namespace Orc.Divido.Requestor
         private string ToQueryString(Dictionary<string, string> parameters)
         {
             List<string> entries = new List<string>();
-            foreach(var key in parameters.Keys)
+            foreach (var key in parameters.Keys)
             {
                 var value = parameters[key];
                 if (value != null)
@@ -136,7 +140,7 @@ namespace Orc.Divido.Requestor
                     entries.Add(string.Format("{0}={1}", UrlEncode(key), UrlEncode(value)));
                 }
             }
-          
+
             return "?" + string.Join("&", entries);
         }
 
@@ -149,5 +153,4 @@ namespace Orc.Divido.Requestor
 #endif
         }
     }
-   
 }

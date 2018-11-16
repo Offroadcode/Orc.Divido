@@ -7,25 +7,25 @@ namespace Orc.Divido.Calculators
 {
     public class PostDataCalculator
     {
-
         public static void Merge(ref Dictionary<string, string> parameters, List<IConvertibleToPostData> products, string v)
         {
-
             int i = 1;
-            foreach(var item in products)
+            foreach (var item in products)
             {
                 Merge(ref parameters, item, v + "," + i);
-                    i++;
+                i++;
             }
         }
+
         public static void Merge(ref Dictionary<string, string> to, IConvertibleToPostData from, string prefix)
         {
-            if(from == null)
+            if (from == null)
             {
                 return;
             }
+
             var newItems = from.GetPostKeys();
-            foreach(var item in newItems)
+            foreach (var item in newItems)
             {
                 var key = item.Key;
                 var value = item.Value;
@@ -36,14 +36,14 @@ namespace Orc.Divido.Calculators
             }
         }
 
-        public static Dictionary<string, string>  FinalizeKeys(Dictionary<string, string> parameters)
+        public static Dictionary<string, string> FinalizeKeys(Dictionary<string, string> parameters)
         {
             Dictionary<string, string> newData = new Dictionary<string, string>();
 
-            foreach(var param in parameters)
+            foreach (var param in parameters)
             {
                 var components = param.Key.Split(',');
-                if(components.Length == 1)
+                if (components.Length == 1)
                 {
                     newData.Add(param.Key, param.Value);
                 }
@@ -51,24 +51,22 @@ namespace Orc.Divido.Calculators
                 {
                     string newKey = "";
                     bool isFirst = true;
-                    foreach(var item in components)
+                    foreach (var item in components)
                     {
                         if (isFirst)
                         {
                             newKey = item;
                             isFirst = false;
                         }
-                        else{
-                            newKey = newKey + "["+item+"]";
+                        else
+                        {
+                            newKey = newKey + "[" + item + "]";
                         }
                     }
 
                     newData.Add(newKey, param.Value);
 
                 }
-
-
-                
             }
 
             return newData;

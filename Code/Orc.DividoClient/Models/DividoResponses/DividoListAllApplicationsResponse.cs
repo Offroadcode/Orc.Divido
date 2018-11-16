@@ -23,6 +23,7 @@ namespace Orc.Divido.Models.DividoResponses
         [DataMember(Name = "totalItems")]
         public int TotalItems { get; set; }
     }
+
     [DataContract()]
     public class DividoChannel
     {
@@ -54,6 +55,7 @@ namespace Orc.Divido.Models.DividoResponses
         [DataMember(Name = "text")]
         public string Text { get; set; }
     }
+
     [DataContract()]
     public class DividoHistory
     {

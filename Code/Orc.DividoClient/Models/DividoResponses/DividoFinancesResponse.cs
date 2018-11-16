@@ -11,6 +11,7 @@ namespace Orc.Divido.Models.DividoResponses
         [DataMember(Name = "finances")]
         public List<DividoFinance> Finances { get; set; }   
     }
+
     [DataContract()]
     public class DividoFinance
     {

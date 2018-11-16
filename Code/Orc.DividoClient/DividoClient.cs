@@ -229,6 +229,7 @@ namespace Orc.Divido
             {
                 PostDataCalculator.Merge(ref parameters, new List<IConvertibleToPostData>(products), "products");
             }
+
             return Requestor.Post<DividoRefundResponse>("cancellation", parameters);
         }
 
@@ -260,6 +261,7 @@ namespace Orc.Divido
                 { "id", id}
             });
         }
+
         /*
         /// <summary>
         /// Retrieves all payment batches.

@@ -13,5 +13,4 @@ namespace Orc.Divido.Models.DividoResponses
         [DataMember(Name = "records")]
         public DividoListAllApplicationsRecord Record { get; set; }
     }
-    
 }
