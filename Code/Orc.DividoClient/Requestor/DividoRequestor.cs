@@ -74,7 +74,7 @@ namespace Orc.Divido.Requestor
             var nvc = new System.Collections.Specialized.NameValueCollection();
             foreach (var kvp in parameters)
             {
-                nvc.Add(kvp.Key.ToString(), kvp.Value.ToString());
+                nvc.Add(kvp.Key, kvp.Value);
             }
             var byteArray = WebClient.UploadValues(url, nvc);
             System.IO.Stream streamTask = new System.IO.MemoryStream(byteArray);
